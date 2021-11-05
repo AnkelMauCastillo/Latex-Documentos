@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
 
+
 \usetikzlibrary{automata, positioning, arrows}
 \tikzset{
 ->,
@@ -12,9 +13,9 @@ every state/.style={thick, fill=gray!10},
 initial text = $ $
 }
 
-\title{Análisis sintáctico predictivo LL(1)}
-\author{ANGEL MAURICIO CASTILLO ZAVALA}
-\date{November 2021}
+\title{Análisis Sintáctico Predictivo LL(1)}
+\author{Angel Mauricio Castillo Zavala}
+\date{\small{\today}}
 
 \begin{document}
 
@@ -238,12 +239,60 @@ Calcula los conjuntos FOLLOW de los símbolos no terminales
      \hline
      $C$ & & & $C \rightarrow cC$& & $C \rightarrow \epsilon$\\ 
      \hline
-     \\
+     $D$ &&&&$D \rightarrow d \mid D \rightarrow dD$&\\
      \hline
-    \end{tabular}
+    \end{tabular}    
  \end{center}
 
+ \section{Oráculo}
+ Usando la tabla de análisis sintáctico $LL(1)$ del ejercicio anterior, analiza sintácticamente la cadena $bbdaa$.
+\begin{center}
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        Coincidencia & Pila & Entrada & Acción \\
+        \hline
+        & $S\$$& $bbdaa\$$ &\\
+        \hline
+        & $A\$$& $bbdaa\$$ & Emitir $S \rightarrow A$\\
+        \hline
+        & $BCDA'\$$& $bbdaa\$$ & Emitir $A \rightarrow BCDA'$\\
+        \hline
+        &$bBCDA’\$$	&$bbdaa\$$&	Emitir $B \rightarrow bB$\\
+        \hline
+        b &	$BCDA’\$$ & $bdaa\$$	&Relacionar b con b\\
+        \hline
+        & $bBCDA’\$$ &	$bdaa\$$	&Emitir $B \rightarrow bB$\\
+        \hline
+        bb&	$BCDA’\$$ &	$daa\$$	&Relacionar b con b\\
+        \hline
+        & $\epsilon CDA’\$$	& $daa\$$	& Emitir $B \rightarrow \epsilon$\\
+        \hline
+        $bb\epsilon$ &	$\epsilon DA’\$$& $daa\$$ &	Emitir $C \rightarrow \epsilon$ \\
+        \hline
+        $bb\epsilon\epsilon$ & $DA’\$$ & $daa\$$ & \\	
+        \hline
+        & $dA’\$$&	$daa\$$ &	Emitir $D \rightarrow d$ \\
+        \hline
+        $bb\epsilon\epsilon d$ &	$A’\$$ &	$aa\$$	&Relacionar d con d\\
+        \hline
+        &    $aA’\$$&	$aa\$$&	Emitir $A’ \rightarrow aA’$\\
+        \hline
+        $bb\epsilon\epsilon da$&	$A’\$$	& $a\$$ & \\
+        \hline	
+        & $aA’\$$&	$a\$$&	Emitir $A’\rightarrow aA’$ \\
+        \hline
+        $bb\epsilon\epsilon daa$ &	$A’\$$ & $\$$ & Relacionar a con a \\
+        \hline
+        & $\epsilon\$$ & $\$$ &	Emitir $A’ \rightarrow \epsilon$\\
+        \hline
+        $bbdaa\$$ & & & \\
+        \hline
+        
 
+        
+    \end{tabular}
+\end{center}
+ 
 
 
 
