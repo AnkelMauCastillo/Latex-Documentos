@@ -1,0 +1,173 @@
+\documentclass[10pt]{article}
+\usepackage{tikz}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+
+\usetikzlibrary{automata, positioning, arrows}
+\tikzset{
+->,
+>=stealth,
+node distance = 1.5cm,
+every state/.style={thick, fill=gray!10},
+initial text = $ $
+}
+
+\title{Análisis sintáctico predictivo LL(1)}
+\author{ANGEL MAURICIO CASTILLO ZAVALA}
+\date{November 2021}
+
+\begin{document}
+
+\maketitle
+
+\section{Dada la siguiente gramática: }
+Gramatica: \\\\
+    S {$\rightarrow$} A\$ \\
+	A {$\rightarrow$}  Aa $\mid$ BCD $\mid$ $\epsilon$ \\
+	B {$\rightarrow$} bB $\mid$ $\epsilon$ \\
+	C {$\rightarrow$} cC $\mid$ $\epsilon$\\
+	D {$\rightarrow$} dD $\mid$ d
+
+\section{Elimina la recursión izquierda A $\rightarrow$ Aa}
+Agrega el símbolo no terminal A’.\\\\
+           A $\rightarrow$ BCDA' $\mid$ $\epsilon$A'\\
+          A’$\rightarrow$ aA' $\mid$ $\epsilon$ \\
+
+\section{Crea el árbol de sintaxis abstracta}    
+Cadena bbdaa$\$$\\
+Gramatica:\\
+S {$\rightarrow$} A\$ \\
+A $\rightarrow$ BCDA' $\mid$ A'\\
+A’$\rightarrow$ aA' $\mid$ $\epsilon$ \\
+B {$\rightarrow$} bB $\mid$ $\epsilon$ \\
+C {$\rightarrow$} cC $\mid$ $\epsilon$ \\
+D {$\rightarrow$} dD $\mid$ d\\\\
+\begin{center}
+    \begin{tikzpicture}
+\node [state] (A) at (6,4.6) {$S$};
+\node [state] (1) at (6,2.6) {$BCDA'$};
+\node [state] (2)  at (0,0) {$B$};
+\node [state] (3) at (3,0) {$C$};
+\node [state] (4) at (6,0) {$D$};
+\node [state] (5) at (9,0){$A'$};
+\node [state] (6) at (12,0) {$A'$};
+
+%Conexiones de No terminales
+\draw (A) edge node{\tt} (1)
+          edge node{\tt} (6);
+\draw (1) edge node{\tt}(2)
+          edge node{\tt}(3)
+          edge node{\tt}(4)
+          edge node{\tt}(5);
+          
+\node [state] (7) at (-1,-2) {$bB$};
+\node [state] (8) at (1,-2) {$\epsilon$};
+\node [state] (9) at (2,-2) {$cC$};
+\node [state] (10) at (4,-2) {$\epsilon$};
+\node [state] (11) at (5,-2) {$dD$};
+\node [state] (12) at (7,-2) {$d$};
+\node [state] (13) at (8,-2) {$aA'$};
+\node [state] (14) at (10,-2) {$\epsilon$};
+\node [state] (15) at (11,-2) {$aA'$};
+\node [state] (16) at (13,-2) {$\epsilon$};
+
+%Xonexiones de estados
+\draw (2) edge node{\tt} (7)
+          edge node{\tt} (8);
+\draw (3) edge node{\tt} (9)
+          edge node{\tt} (10);
+\draw (4) edge node{\tt} (11)
+          edge node{\tt} (12);
+\draw (5) edge node{\tt} (13)
+          edge node{\tt} (14);
+\draw (6) edge node{\tt} (15)
+          edge node{\tt} (16);  
+          
+
+
+\draw (7) edge [bend left=45] node{\tt} (2);
+\draw (9) edge [bend left=35] node{\tt} (3);
+\draw (11) edge [bend left=35] node{\tt} (4);
+\draw (13) edge [bend left=35] node{\tt} (5);
+\draw (15) edge [bend left=45] node{\tt} (6);
+\end{tikzpicture}
+\end{center}
+
+\section{Calcula los conjuntos FIRST}
+Calcula todos los conjuntos FIRST de los símbolos no terminales.
+
+\subsection{Reglas First}
+\begin{enumerate}
+    \item Si $X$ es un terminal, entonces $First(X)$ $=$ ${x}$
+    \item Si $X$ es un no terminal, X $\rightarrow$ $Y_{1}$, $Y_{2}$, $Y_{3}$, ..., $Y_{k}$, entonces $First(x)$ = $Y_{1}$ $\cup$ $Y_{2}$ $\cup$ $Y_{3}$ $\cup$ $Y_{k}$, hasta que $Y_{i}$ produce $\epsilon$.
+    \item Si X $\rightarrow$ $\epsilon$ es una producción, entonces $First(X) = \epsilon$.
+\end{enumerate}
+
+\subsection{Aplicar Reglas}
+\begin{itemize}
+    \item $First (S) = First (A\$)$
+    \begin{itemize}
+        \item $First (A) = First (BCDA') \cup First (A')$
+     \begin{itemize}
+         \item $First (B) = First (bB) \cup First (\epsilon) = \left \{ b, \epsilon \right \}$
+     \end{itemize}
+        \item $First (A) = \left \{b  \right \} \cup First (CDA’)$
+        \begin{itemize}
+            \item $First (C) = \left \{c, \epsilon \right \}$
+        \end{itemize}
+        \item $First (A) = \left \{b  \right \} \cup \left \{c  \right \} \cup First (DA')$
+        \begin{itemize}
+            \item $First (D) = \left \{d  \right \}$
+        \end{itemize}
+        \item $First (A) = \left \{b  \right \} \cup \left \{c  \right \} \cup \left \{d \right \} = \left \{b, c, d  \right \} \cup \left \{ a \right \} = \left \{b, c, d, a  \right \}$
+    \end{itemize}
+    \item $First (A) = First (BCDA’)$
+    \begin{itemize}
+        \item $= \left \{b  \right \} \cup \left \{c  \right \} \cup \left \{d \right \} = \left \{b, c, d, a  \right \}$
+    \end{itemize}
+    \item $First (A') = First(aA') \cup First(\epsilon)$
+    \begin{itemize}
+        \item $= \left \{a, \epsilon  \right \}$
+    \end{itemize}
+    \item $First (B) = First (bB) \cup First (\epsilon) $
+    \begin{itemize}
+        \item $= \left \{b, \epsilon  \right \}$
+    \end{itemize}
+    \item $First (C) = First (cC) \cup First (\epsilon)$
+    \begin{itemize}
+        \item $= \left \{c, \epsilon  \right \}$
+    \end{itemize}
+    \item $First (D) = First (dD) \cup First (d)$
+    \begin{itemize}
+        \item $\left \{d  \right \}$
+    \end{itemize}
+\end{itemize}
+
+\subsection{Tabla First}
+\begin{center}
+\begin{tabular}{|c| c| } 
+ \hline
+ No Terminales & First \\ [0.5ex] 
+ \hline
+ S & $\left \{b, c, d, a  \right \}$ \\ 
+ \hline
+ A & $\left \{b, c, d, a  \right \}$  \\
+ \hline
+ A' & $\left \{a, \epsilon  \right \}$  \\
+ \hline
+ B & $\left \{b, \epsilon  \right \}$\\
+ \hline
+ C & $\left \{c, \epsilon  \right \}$ \\ 
+ \hline
+ D & $\left \{d  \right \}$ \\ 
+ \hline
+\end{tabular}
+\end{center}
+
+\section{Calcula los conjuntos FOLLOW }
+
+
+
+
+
+\end{document}
