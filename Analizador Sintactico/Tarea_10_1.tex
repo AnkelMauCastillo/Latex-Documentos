@@ -167,11 +167,51 @@ Calcula todos los conjuntos FIRST de los símbolos no terminales.
 \section{Calcula los conjuntos FOLLOW }
 Calcula los conjuntos FOLLOW de los símbolos no terminales
 \subsection{Reglas Follow}
-\begin{itemize}
+\begin{enumerate}
     \item Los conjuntos Follow de todos los No Terminales son iniciales vacías, excepto el del No Terminal inicial de la gramática, en el que se incluye el símbolo $\left \{\$  \right \}$. A partir de este punto, para calcular cada uno de los conjuntos deben aplicarse las siguientes reglas (no son excluyentes) por cada ocurrencia del No Terminal en la parte derecha de alguna Regla de Producción.
     \item Si A $\rightarrow$ $\alpha$B$\beta$. Añadir a Follow (B) los elementos de First ($\beta$), con la excepción de $\epsilon$; este símbolo nunca se incluirá en los conjuntos Follow.
     \item Si A $\rightarrow$ $\alpha$B, o bien, A $\rightarrow$ $\alpha$B$\beta$ donde First ($\beta$) contiene $\epsilon$. Añadir a Follow (B) los elementos de Follow (A).
+\end{enumerate}
+\subsection{Aplicar Reglas}
+
+\begin{itemize}
+    \item $FOLLOW (S) = \left \{\$ \right \}$
+    \item $FOLLOW (A) = \left \{\$  \right \}$
+    \item $FOLLOW (A') = \left \{\$  \right \}$
+    \item $FOLLOW (B) = \left \{c, d\right \}$
+    \item $FOLLOW (C) = \left \{d\right \}$
+    \item $FOLLOW (D) = \left \{\$, a\right \}$
 \end{itemize}
+\section{Resumen Calculo de First y Follow}
+\subsection{Tabla First}
+\begin{center}
+\begin{tabular}{|c| c| c| c|} 
+ \hline
+ Producción & No Terminales &First & Follow \\ [0.5ex] 
+ \hline
+ $S \rightarrow A\$$ & $S$ & $\left \{b, c, d, a  \right \}$ & $FOLLOW (S) = \left \{\$ \right \}$\\ 
+ \hline
+ $A \rightarrow BCDA' \mid A'$ & $A$ & $\left \{b, c, d, a  \right \}$ & $FOLLOW (A) = \left \{\$  \right \}$ \\
+ \hline
+ $A' \rightarrow aA' | \epsilon$ & $A'$ & $\left \{a, \epsilon  \right \}$ & $FOLLOW (A') = \left \{\$  \right \}$ \\
+ \hline
+ $b \rightarrow bB \mid \epsilon$ & $B$ & $\left \{b, \epsilon  \right \}$ & $FOLLOW (B) = \left \{c, d\right \}$\\
+ \hline
+ $C \rightarrow cC \mid \epsilon$ & $C$ & $\left \{c, \epsilon  \right \}$ & $FOLLOW (C) = \left \{d\right \}$\\ 
+ \hline
+ $D \rightarrow dD \mid d$ & $D$ & $\left \{d  \right \}$ & $FOLLOW (D) = \left \{\$, a\right \}$\\ 
+ \hline
+\end{tabular}
+\end{center}
+
+\section{Tabla de Análisis Sintáctico LL}
+\subsection{Reglas}
+\begin{enumerate}
+    \item Para cada terminal $a$ en $First (A)$, agregar $A \rightarrow \alpha$   correspondiente a $M [A, a]$.
+    \item Si $\epsilon$ está en $First (\alpha)$, entonces para cada terminal $b$ en $Follow (A)$, se agrega la producción $A \rightarrow \epsilon$ corresponde a $M [A, b]$.
+    \item Si $\epsilon$ está en $First (\alpha)$ y $\$$ está en $Follow (A)$, se agrega $A \rightarrow \alpha a M [A, \$]$.
+\end{enumerate}
+
 
 
 
