@@ -42,56 +42,65 @@ A’$\rightarrow$ aA' $\mid$ $\epsilon$ \\
 B {$\rightarrow$} bB $\mid$ $\epsilon$ \\
 C {$\rightarrow$} cC $\mid$ $\epsilon$ \\
 D {$\rightarrow$} dD $\mid$ d\\\\
-\begin{center}
-    \begin{tikzpicture}
-\node [state] (A) at (6,4.6) {$S$};
-\node [state] (1) at (6,2.6) {$BCDA'$};
-\node [state] (2)  at (0,0) {$B$};
-\node [state] (3) at (3,0) {$C$};
-\node [state] (4) at (6,0) {$D$};
-\node [state] (5) at (9,0){$A'$};
-\node [state] (6) at (12,0) {$A'$};
 
-%Conexiones de No terminales
-\draw (A) edge node{\tt} (1)
-          edge node{\tt} (6);
-\draw (1) edge node{\tt}(2)
-          edge node{\tt}(3)
-          edge node{\tt}(4)
-          edge node{\tt}(5);
-          
-\node [state] (7) at (-1,-2) {$bB$};
-\node [state] (8) at (1,-2) {$\epsilon$};
-\node [state] (9) at (2,-2) {$cC$};
-\node [state] (10) at (4,-2) {$\epsilon$};
-\node [state] (11) at (5,-2) {$dD$};
-\node [state] (12) at (7,-2) {$d$};
-\node [state] (13) at (8,-2) {$aA'$};
-\node [state] (14) at (10,-2) {$\epsilon$};
-\node [state] (15) at (11,-2) {$aA'$};
-\node [state] (16) at (13,-2) {$\epsilon$};
+ \begin{tikzpicture}
+    \node [state] (A) at (6,4.6) {$S$};
+    \node [state] (1) at (6,2.6) {$BCDA'$};
+    \node [state] (2)  at (0,0) {$B$};
+    \node [state] (3) at (3,0) {$C$};
+    \node [state] (4) at (6,0) {$D$};
+    \node [state] (5) at (9,0){$A'$};
+    
 
-%Xonexiones de estados
-\draw (2) edge node{\tt} (7)
-          edge node{\tt} (8);
-\draw (3) edge node{\tt} (9)
-          edge node{\tt} (10);
-\draw (4) edge node{\tt} (11)
-          edge node{\tt} (12);
-\draw (5) edge node{\tt} (13)
-          edge node{\tt} (14);
-\draw (6) edge node{\tt} (15)
-          edge node{\tt} (16);  
-          
+    %Conexiones de No terminales
+    \draw (A) edge node{\tt} (1);
+           
+    \draw (1) edge node{\tt}(2)
+            edge node{\tt}(3)
+            edge node{\tt}(4)
+            edge node{\tt}(5);
+            
+    \node [state] (7) at (-1,-2) {$bB$};       
+    \node [state] (10) at (3,-2) {$\epsilon$};
+    
+    \node [state] (12) at (6,-2) {$d$};
+    \node [state] (13) at (8,-2) {$aA'$};    
+ 
+
+    %Xonexiones de estados
+    \draw (2) edge node{\tt} (7);            
+    \draw (3) edge node{\tt} (10);            
+    \draw (4) edge node{\tt} (12);            
+    \draw (5) edge node{\tt} (13);
+              
+    
+    %inicia 
+    \node [state] (17) at (-1,-4) {$b$};
+    \node [state] (18) at (1,-4) {$B$};
+    \node [state] (19) at (1,-6) {$bB$};
+    \node [state] (20) at (-1, -7) {$b$};
+    \node [state] (21) at (3, -7) {$\epsilon$};
+    \node [state] (22) at (7, -4) {$a$};
+    \node [state] (23) at (9, -4) {$A'$};
+    \node [state] (24) at (9, -6) {$aA'$};
+    \node [state] (25) at (7, -7) {$a$};
+    \node [state] (26) at (11, -7) {$\epsilon$};
+    %vincular
+    \draw (7) edge node{\tt} (17)  
+              edge node{\tt} (18);
+    \draw (18) edge node{\tt} (19);
+    \draw (19) edge node{\tt} (20)  
+              edge node{\tt} (21);
+    \draw (24) edge node{\tt} (25)
+               edge node{\tt} (26);     
+    \draw (23) edge node{\tt} (24);
+    \draw (13) edge node{\tt} (22)
+               edge node{\tt} (23);
+                                                           
 
 
-\draw (7) edge [bend left=45] node{\tt} (2);
-\draw (9) edge [bend left=35] node{\tt} (3);
-\draw (11) edge [bend left=35] node{\tt} (4);
-\draw (13) edge [bend left=35] node{\tt} (5);
-\draw (15) edge [bend left=45] node{\tt} (6);
+
 \end{tikzpicture}
-\end{center}
 
 \section{Calcula los conjuntos FIRST}
 Calcula todos los conjuntos FIRST de los símbolos no terminales.
@@ -195,7 +204,7 @@ Calcula los conjuntos FOLLOW de los símbolos no terminales
  \hline
  $A' \rightarrow aA' | \epsilon$ & $A'$ & $\left \{a, \epsilon  \right \}$ & $FOLLOW (A') = \left \{\$  \right \}$ \\
  \hline
- $b \rightarrow bB \mid \epsilon$ & $B$ & $\left \{b, \epsilon  \right \}$ & $FOLLOW (B) = \left \{c, d\right \}$\\
+ $B \rightarrow bB \mid \epsilon$ & $B$ & $\left \{b, \epsilon  \right \}$ & $FOLLOW (B) = \left \{c, d\right \}$\\
  \hline
  $C \rightarrow cC \mid \epsilon$ & $C$ & $\left \{c, \epsilon  \right \}$ & $FOLLOW (C) = \left \{d\right \}$\\ 
  \hline
@@ -211,6 +220,28 @@ Calcula los conjuntos FOLLOW de los símbolos no terminales
     \item Si $\epsilon$ está en $First (\alpha)$, entonces para cada terminal $b$ en $Follow (A)$, se agrega la producción $A \rightarrow \epsilon$ corresponde a $M [A, b]$.
     \item Si $\epsilon$ está en $First (\alpha)$ y $\$$ está en $Follow (A)$, se agrega $A \rightarrow \alpha a M [A, \$]$.
 \end{enumerate}
+
+\begin{center}
+    \begin{tabular}{|c| c|c|c|c|c| } 
+     \hline
+     No Terminales & \multicolumn{5}{|c|}{Terminales} \\ [0.5ex] 
+     \hline
+      & a & b & c & d & $\$$\\ 
+     \hline
+     $S$ & $S \rightarrow A\$$ & $S \rightarrow A\$$ & $S \rightarrow A\$$ & $S \rightarrow A\$$ &\\
+     \hline
+     $A$ &$A \rightarrow aA’$ & $A \rightarrow BCDA’$ &$A \rightarrow BCDA’$& $A \rightarrow BCDA’$ &  \\
+     \hline
+     $A’$ & $A' \rightarrow aA'$& & & & $A' \rightarrow \epsilon $\\
+     \hline
+     $B$ & &$B \rightarrow bB$ & & & $B \rightarrow \epsilon$\\ 
+     \hline
+     $C$ & & & $C \rightarrow cC$& & $C \rightarrow \epsilon$\\ 
+     \hline
+     \\
+     \hline
+    \end{tabular}
+ \end{center}
 
 
 
