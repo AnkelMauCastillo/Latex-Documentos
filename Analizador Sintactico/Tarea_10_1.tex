@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+\documentclass[10pt]{article}
 \usepackage{tikz}
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
@@ -165,7 +165,13 @@ Calcula todos los conjuntos FIRST de los símbolos no terminales.
 \end{center}
 
 \section{Calcula los conjuntos FOLLOW }
-
+Calcula los conjuntos FOLLOW de los símbolos no terminales
+\subsection{Reglas Follow}
+\begin{itemize}
+    \item Los conjuntos Follow de todos los No Terminales son iniciales vacías, excepto el del No Terminal inicial de la gramática, en el que se incluye el símbolo $\left \{\$  \right \}$. A partir de este punto, para calcular cada uno de los conjuntos deben aplicarse las siguientes reglas (no son excluyentes) por cada ocurrencia del No Terminal en la parte derecha de alguna Regla de Producción.
+    \item Si A $\rightarrow$ $\alpha$B$\beta$. Añadir a Follow (B) los elementos de First ($\beta$), con la excepción de $\epsilon$; este símbolo nunca se incluirá en los conjuntos Follow.
+    \item Si A $\rightarrow$ $\alpha$B, o bien, A $\rightarrow$ $\alpha$B$\beta$ donde First ($\beta$) contiene $\epsilon$. Añadir a Follow (B) los elementos de Follow (A).
+\end{itemize}
 
 
 
